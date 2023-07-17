@@ -16,14 +16,14 @@ Product.belongsTo(Category, {
 
 // Product belongs to many Tag models through the ProductTag model
 Product.belongsToMany(Tag, {
-  through: 'product_tag', // This is the name of the junction table (ProductTag) in the database
+  through: 'product_tag', // This is the name of the junction table ProductTag in the database
   foreignKey: 'product_id', // This is the foreign key column in the junction table
 });
 
 
 // Tag belongs to many Product models through the ProductTag model
 Tag.belongsToMany(Product, {
-  through: 'product_tag', // This is the name of the junction table (ProductTag) in the database
+  through: 'product_tag', // This is the name of the junction table ProductTag in the database
   foreignKey: 'tag_id', // This is the foreign key column in the junction table
 });
 

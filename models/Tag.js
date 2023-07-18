@@ -1,37 +1,30 @@
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/connection.js');
+const { Model, DataTypes } = require('sequelize'); // Import necessary modules from sequelize
+const sequelize = require('../config/connection.js'); // Import the sequelize connection
 // const Product = require('./Product');
 
-
-class Tag extends Model {}
+class Tag extends Model {} // Create a Tag class that extends the Sequelize Model class
 
 Tag.init(
   {
-    // Define columns
+    
     id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
+      type: DataTypes.INTEGER, // Data type for the column integer
+      allowNull: false, // The column cannot be null
+      primaryKey: true, // The column is the primary key of the table
+      autoIncrement: true, // The column auto-increments for each new row
     },
     tag_name: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.STRING, // Data type for the column string
+      allowNull: false, // The column cannot be null
     },
   },
   {
-    sequelize,
-    timestamps: false,
-    freezeTableName: true,
-    underscored: true,
-    modelName: 'tag',
+    sequelize, 
+    timestamps: false, 
+    freezeTableName: true, 
+    underscored: true, 
+    modelName: 'tag', 
   }
 );
 
-// Tag belongs to many Product models through the ProductTag model
-// Tag.belongsToMany(Product, {
-//   through: 'product_tag', // This is the name of the junction table (ProductTag) in the database
-//   foreignKey: 'tag_id', // This is the foreign key column in the junction table
-// });
-
-module.exports = Tag;
+module.exports = Tag; // Export the Tag model

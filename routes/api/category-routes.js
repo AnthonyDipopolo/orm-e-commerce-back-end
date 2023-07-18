@@ -60,7 +60,7 @@ router.put('/:id', async (req, res) => {
       // If no rows were updated, the category does not exist, return a 404 status with an error message
       return res.status(404).json({ message: 'Category not found' });
     }
-    res.json(updatedCategory); // Send the response with the updated category data as JSON
+    res.json({updatedCategory, message: 'Category updated successfully'}); // Send the response with the updated category data as JSON
   } catch (err) {
     console.error(err); // Log the error to the console
     res.status(500).json({ message: 'Server Error' }); // Send a 500 status and error message as JSON

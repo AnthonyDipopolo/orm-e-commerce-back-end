@@ -63,7 +63,7 @@ router.put('/:id', async (req, res) => {
       // If no rows were updated, the tag does not exist, return a 404 status with an error message
       return res.status(404).json({ message: 'Tag not found' });
     }
-    res.json({ message: 'Tag updated successfully' }); // Send the response with a success message as JSON
+    res.json({updatedTag, message: 'Tag updated successfully' }); // Send the response with a success message as JSON
   } catch (err) {
     console.error(err); // Log the error to the console
     res.status(500).json({ message: 'Server error' }); // Send a 500 status and error message as JSON

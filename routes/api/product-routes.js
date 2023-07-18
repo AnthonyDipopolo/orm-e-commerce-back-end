@@ -6,13 +6,14 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 // Get all products with their associated Category and Tag data
 router.get('/', async (req, res) => {
   try {
+    // Find all products with associated Category and Tag data
     const products = await Product.findAll({
       include: [Category, Tag], // Include associated Category and Tag data
     });
-    res.json(products);
+    res.json(products); // Send the response with products data as JSON
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server Error' });
+    console.error(err); // Log the error to the console
+    res.status(500).json({ message: 'Server Error' }); // Send a 500 status and error message as JSON
   }
 });
 
@@ -20,24 +21,27 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const productId = req.params.id;
+    // Find a product by its `id` with associated Category and Tag data
     const product = await Product.findByPk(productId, {
       include: [Category, Tag], // Include associated Category and Tag data
     });
     if (!product) {
+      // If product not found, return a 404 status with an error message
       return res.status(404).json({ message: 'Product not found' });
     }
-    res.json(product);
+    res.json(product); // Send the response with product data as JSON
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server Error' });
+    console.error(err); // Log the error to the console
+    res.status(500).json({ message: 'Server Error' }); // Send a 500 status and error message as JSON
   }
 });
 
 // Create a new product
 router.post('/', async (req, res) => {
   try {
+    // Create a new product with data from the request body
     const newProduct = await Product.create(req.body);
-    
+
     // If there are product tags, create pairings to bulk create in the ProductTag model
     if (req.body.tagIds && req.body.tagIds.length) {
       const productTagIdArr = req.body.tagIds.map((tag_id) => {
@@ -48,11 +52,11 @@ router.post('/', async (req, res) => {
       });
       await ProductTag.bulkCreate(productTagIdArr);
     }
-    
-    res.status(201).json(newProduct);
+
+    res.status(201).json(newProduct); // Send the response with the newly created product data as JSON
   } catch (err) {
-    console.error(err);
-    res.status(400).json(err);
+    console.error(err); // Log the error to the console
+    res.status(400).json(err); // Send a 400 status and error message as JSON
   }
 });
 
@@ -60,10 +64,12 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const productId = req.params.id;
+    // Update the product with data from the request body where id matches
     const updatedProduct = await Product.update(req.body, {
       where: { id: productId },
     });
 
+    // If there are product tags, update them in the ProductTag model
     if (req.body.tagIds && req.body.tagIds.length) {
       const productTags = await ProductTag.findAll({
         where: { product_id: productId },
@@ -89,10 +95,10 @@ router.put('/:id', async (req, res) => {
       ]);
     }
 
-    res.json(updatedProduct);
+    res.json(updatedProduct); // Send the response with the updated product data as JSON
   } catch (err) {
-    console.error(err);
-    res.status(400).json(err);
+    console.error(err); // Log the error to the console
+    res.status(400).json(err); // Send a 400 status and error message as JSON
   }
 });
 
@@ -100,16 +106,18 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const productId = req.params.id;
+    // Delete the product where id matches
     const deletedProduct = await Product.destroy({
       where: { id: productId },
     });
     if (!deletedProduct) {
+      // If no rows were deleted, the product does not exist, return a 404 status with an error message
       return res.status(404).json({ message: 'Product not found' });
     }
-    res.json({ message: 'Product deleted successfully' });
+    res.json({ message: 'Product deleted successfully' }); // Send the response with a success message as JSON
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server Error' });
+    console.error(err); // Log the error to the console
+    res.status(500).json({ message: 'Server Error' }); // Send a 500 status and error message as JSON
   }
 });
 

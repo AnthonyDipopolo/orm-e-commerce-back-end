@@ -1,66 +1,51 @@
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/connection');
-// const Tag = require('./Tag');
-// const Category = require('./Category');
+const { Model, DataTypes } = require('sequelize'); // Import necessary modules from sequelize
+const sequelize = require('../config/connection'); // Import the sequelize connection
 
-
-
-class Product extends Model {}
+class Product extends Model {} // Create a Product class that extends the Sequelize Model class
 
 Product.init(
   {
-    // Define columns
+  
     id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
+      type: DataTypes.INTEGER, // Data type for the column (integer)
+      allowNull: false, // The column cannot be null
+      primaryKey: true, // The column is the primary key of the table
+      autoIncrement: true, // The column auto-increments for each new row
     },
     product_name: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.STRING, // Data type for the column string
+      allowNull: false, // The column cannot be null
     },
     price: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: false,
+      type: DataTypes.DECIMAL(10, 2), // Data type for the column, sadecimal with 10 digits in total and 2 decimal places
+      allowNull: false, // The column cannot be null
       validate: {
-        isDecimal: true,
+        isDecimal: true, // Validate that the value is a decimal
       },
     },
     stock: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 10,
+      type: DataTypes.INTEGER, // Data type for the column integer
+      allowNull: false, // The column cannot be null
+      defaultValue: 10, // Set a default value of 10 for the column
       validate: {
-        isNumeric: true,
+        isNumeric: true, // Validate that the value is numeric
       },
     },
     category_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER, // Data type for the column (integer)
       references: {
-        model: 'category',
-        key: 'id',
+        model: 'category', // Reference the category model
+        key: 'id', // Use the id column of the category model as the reference key
       },
     },
   },
   {
-    sequelize,
-    timestamps: false,
-    freezeTableName: true,
-    underscored: true,
-    modelName: 'product',
+    sequelize, 
+    timestamps: false, 
+    freezeTableName: true, 
+    underscored: true, 
+    modelName: 'product', 
   }
 );
 
-// Product belongs to Category
-// Product.belongsTo(Category, {
-//   foreignKey: 'category_id', // This is the foreign key column in the Product model
-// });
-
-// Product belongs to many Tag models through the ProductTag model
-// Product.belongsToMany(Tag, {
-//   through: 'product_tag', // This is the name of the junction table (ProductTag) in the database
-//   foreignKey: 'product_id', // This is the foreign key column in the junction table
-// });
-
-module.exports = Product;
+module.exports = Product; // Export the Product model
